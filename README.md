@@ -59,6 +59,6 @@ Contents
 
 #### 2. main.js에서 함수 정의 및 바로 호출   
 
-<src = "https://github.com/minwn3318/JS-runtime/blob/main/%EC%BA%A1%EC%B2%98.JPG">   
+<src = "https://github.com/minwn3318/JS-runtime/blob/main/%EC%BA%A1%EC%B2%98.JPG"/>   
 
-<src = "https://github.com/minwn3318/JS-runtime/blob/main/%EC%BA%A1%EC%B2%981.JPG">
+<src = "https://github.com/minwn3318/JS-runtime/blob/main/%EC%BA%A1%EC%B2%981.JPG"/>
