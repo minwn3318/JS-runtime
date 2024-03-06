@@ -56,3 +56,9 @@ Contents
       + npm init은 package를 만든다는 의미의 명령어 입니다. -y는 yes라는 뜻으로 기본상태로 만들겠다는 옵션이 됩니다.   
       
 5. 간단한 Hello World 출력하는 프로그램 실행
+
+#### 2. main.js에서 함수 정의 및 바로 호출   
+
+<src = "https://github.com/minwn3318/JS-runtime/blob/main/%EC%BA%A1%EC%B2%98.JPG">   
+
+<src = "https://github.com/minwn3318/JS-runtime/blob/main/%EC%BA%A1%EC%B2%981.JPG">
