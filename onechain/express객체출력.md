@@ -11,3 +11,5 @@
      + 하지만 제이슨과 일치하지 않았고, require된 모듈에 접속해보니 js가 아닌 타입스크립트로 작성된 모듈이었다.   
 
     > 따라서 타입스크립트에 대한 이해가 필요하고, requrie로 한 모듈과 임포트한 모듈의 차이점을 알아볼 필요가 있다.
+
+https://github.com/minwn3318/JS-runtime/blob/main/express%EA%B0%9D%EC%B2%B4%EC%B6%9C%EB%A0%A5%EC%BA%A1%EC%B2%98.JPG
