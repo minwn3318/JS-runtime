@@ -1,4 +1,6 @@
 const net = require('net');
+const readline = require('readline');
+const process = require('process');
 
 //소켓 생성(socket)
 const client = new net.Socket();
@@ -10,18 +12,33 @@ const host = 'localhost';
 client.connect(port, host, () => {
   console.log(`Connected to server: ${host}:${port}`);
 
-  // 서버에 데이터를 보낸다(send)
-  client.write('Hello, server!');
-  console.log('Hello, server!-1')
-});
+  // 보낼 내용을 입력 받을 인터페이스를 연다
+  const rl = readline.createInterface({
+    input : process.stdin,
+    output : process.stdout,
+  });
 
-// 서버에 데이터를 받는다(recive)
-client.on('data', (data) => {
-  console.log(`Received from server: ${data}`);
+  // 보낼 내용을 입력 받고 보낸다
+  rl.on("line", (line) => {
 
-});
+    console.log("input : " + line);
 
-// 연결종료(close)
-client.on('close', () => {
-  console.log('Connection closed');
+    client.write(line);
+
+    // 서버에서 데이터를 받는다(recive)
+    client.on('data', (data) => {
+
+      console.log(`Received from server: ${data}`);
+
+    });
+
+    client.on('close', () => {
+      
+      console.log('Connection closed');
+      rl.close();
+      
+    });
+
+  });
+
 });
