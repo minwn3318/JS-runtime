@@ -23,22 +23,25 @@ client.connect(port, host, () => {
 
     console.log("input : " + line);
 
-    client.write(line);
+    if(line == 0){
+
+      console.log('Connection closed');
+
+      rl.close();
+      client.end();
+      
+    }
+    else{
+      client.write(line);
+    }
+  });
 
     // 서버에서 데이터를 받는다(recive)
-    client.on('data', (data) => {
+  client.on('data', (data) => {
 
-      console.log(`Received from server: ${data}`);
-
-    });
-
-    client.on('close', () => {
-      
-      console.log('Connection closed');
-      rl.close();
-      
-    });
-
+    console.log(`Received from server: ${data}`);
+  
   });
 
 });
+

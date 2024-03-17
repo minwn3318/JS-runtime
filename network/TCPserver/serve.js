@@ -9,12 +9,10 @@ const serve = net.createServer((socket) => {
     
         socket.write(data);
 
-        if(data == '0')
-        {
-            socket.on('end', () => {
-                console.log('client disconnect');
-            });
-        }
+    });
+
+    socket.on('end', () => {
+        console.log('client disconnect');
     });
 });
 
