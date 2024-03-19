@@ -1,0 +1,30 @@
+splited : db,6001
+tem : db/
+tem : db/6001/
+make direct
+encodede block : {"_blocks":[{"header":{"version":"1.0.0","index":0,"_previousHash":"0000000000000000000000000000000000000000000000000000000000000000","timestamp":1231006505,"merkleRoot":"A6D72BAA3DB900B03E70DF880E503E9164013B4D9A470853EDC115776323A098","difficulty":0,"nonce":0},"data":["The Times 03/Jan/2009 Chancellor on brink of second bailout for banks"]}],"_length":1}
+load fun : [object Promise]
+load blockchain : [object Object]
+finish blockchain :[object Object]
+await : [object Promise]
+finish peer
+exprtess : function(req, res, next) {
+    app.handle(req, res, next);
+  }
+cors : function(req, res, next) {
+    app.handle(req, res, next);
+  }
+json : function(req, res, next) {
+    app.handle(req, res, next);
+  }
+finish http
+Listening websocket p2p port on: 6001
+finish p2p
+exis : true
+Load wallet with private key from: wallet/6001/private_key
+finish wallet
+Listening http port on: 3001
+encodede block : {"_blocks":[{"header":{"version":"1.0.0","index":0,"_previousHash":"0000000000000000000000000000000000000000000000000000000000000000","timestamp":1231006505,"merkleRoot":"A6D72BAA3DB900B03E70DF880E503E9164013B4D9A470853EDC115776323A098","difficulty":0,"nonce":0},"data":["The Times 03/Jan/2009 Chancellor on brink of second bailout for banks"]}],"_length":1}
+load fun : [object Promise]
+load blockchain : [object Object]
+finish blockchain :[object Object]
