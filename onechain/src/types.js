@@ -101,7 +101,10 @@ class Blockchain {
 
     decode(encodedBlockchain) {
         var decodedBlockchain = JSON.parse(encodedBlockchain);
+        console.dir("decodeBlockchain : "+decodedBlockchain);
+
         var objectifiedBlockchain = Object.assign(new Blockchain(), decodedBlockchain);
+        console.dir("objectifiedBlockchain : "+objectifiedBlockchain);
 
         var decodedBlocks = objectifiedBlockchain.blocks.map(function (encodedBlock) {
             /**
@@ -131,10 +134,10 @@ class Blockchain {
     }
 
     async load() {
+        console.log("start load");
         try {
             const encodedBlockchain = await db.get("Blockchain");
             console.log("encodede block : "+encodedBlockchain);
-            console.log("load fun : " + db.get("Blockchain"));
             
             return new Blockchain().decode(encodedBlockchain);
         }

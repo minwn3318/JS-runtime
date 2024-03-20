@@ -13,13 +13,13 @@ const initialPeers = process.env.PEERS ? process.env.PEERS.split(',') : [];
 
 function initHttpServer() {
     const app = express();
-    console.log("exprtess : "+app);
+    //console.log("exprtess : "+app);
 
     app.use(cors());
-    console.log("cors : "+ app.use(cors()));
+    //console.log("cors : "+ app.use(cors()));
 
     app.use(json());
-    console.log("json : "+ app.use(cors()));
+    //console.log("json : "+ app.use(cors()));
 
     app.get("/blocks", function (req, res) {
         res.send(getBlockchain());
@@ -82,18 +82,26 @@ function initHttpServer() {
 
 // main
 (async function () {
-    await initBlockchain();
-    console.log("await : "+initBlockchain());
+    console.log("----------");
+    const initBl = await initBlockchain();
+    console.log("await : "+ initBl);
+    console.log("----------");
 
+    console.dir("peers : "+initialPeers);
     connectToPeers(initialPeers);
     console.log("finish peer");
+    console.log("----------");
 
     initHttpServer();
     console.log("finish http");
+    console.log("----------");
 
     initP2PServer();
     console.log("finish p2p");
+    console.log("----------");
 
     initWallet();
     console.log("finish wallet");
+    console.log("----------");
+
 })();

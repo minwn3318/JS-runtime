@@ -10,7 +10,7 @@ var blockchain;
 
 async function initBlockchain() {
     const loadedBlockchain = await new Blockchain().load();
-    console.log("load blockchain : " +loadedBlockchain);
+    console.dir(loadedBlockchain);
 
     if (loadedBlockchain !== undefined) {
         blockchain = loadedBlockchain;
@@ -23,7 +23,7 @@ async function initBlockchain() {
         blockchain = newBlockchain;
     }
     
-    console.log("finish blockchain :" + blockchain);
+    console.dir("finish blockchain :" + blockchain);
 }
 
 function getBlockchain() { return deepCopy(blockchain); }

@@ -57,6 +57,7 @@ function getSockets() { return sockets; }
 
 function initP2PServer() {
     const server = new Server({ port: p2p_port });
+    console.dir("server : "+server);
     server.on("connection", function (ws) { initConnection(ws); });
     console.log("Listening websocket p2p port on: " + p2p_port);
 }
@@ -131,6 +132,7 @@ function closeConnection(ws) {
 }
 
 function connectToPeers(newPeers) {
+    console.log("connect start");
     newPeers.forEach(
         function (peer) {
             const ws = new WebSocket(peer);
@@ -143,6 +145,7 @@ function connectToPeers(newPeers) {
             console.log(ws.on("error", function () { console.log("Connection failed"); }));
         }
     );
+    console.log("finsih connect");
 }
 
 function handleBlockchainResponse(message) {
