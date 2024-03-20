@@ -1,30 +1,144 @@
 splited : db,6001
-tem : db/
+tem : db/     
 tem : db/6001/
-make direct
-encodede block : {"_blocks":[{"header":{"version":"1.0.0","index":0,"_previousHash":"0000000000000000000000000000000000000000000000000000000000000000","timestamp":1231006505,"merkleRoot":"A6D72BAA3DB900B03E70DF880E503E9164013B4D9A470853EDC115776323A098","difficulty":0,"nonce":0},"data":["The Times 03/Jan/2009 Chancellor on brink of second bailout for banks"]}],"_length":1}
-load fun : [object Promise]
-load blockchain : [object Object]
-finish blockchain :[object Object]
-await : [object Promise]
+make direct   
+----------
+start load
+'{"_blocks":[{"header":{"version":"1.0.0","index":0,"_previousHash":"0000000000000000000000000000000000000000000000000000000000000000","timestamp":1231006505,"merkleRoot":"A6D72BAA3DB900B03E70DF880E503E9164013B4D9A470853EDC115776323A098","difficulty":0,"nonce":0},"data":["The Times 03/Jan/2009 Chancellor on brink of second bailout for banks"]}],"_length":1}'
+decodedBlcokchain
+{ _blocks: [ { header: [Object], data: [Array] } ], _length: 1 }
+objectifiedBlockchain
+Blockchain {
+  _blocks: [ { header: [Object], data: [Array] } ],
+  _length: 1
+}
+loadedBlock
+Blockchain {
+  _blocks: [ Block { header: [BlockHeader], data: [Array] } ],  
+  _length: 1
+}
+blockchain
+Blockchain {
+  _blocks: [ Block { header: [BlockHeader], data: [Array] } ],  
+  _length: 1
+}
+----------
+peers
+[]
+connect start
+finsih connect
 finish peer
-exprtess : function(req, res, next) {
-    app.handle(req, res, next);
-  }
-cors : function(req, res, next) {
-    app.handle(req, res, next);
-  }
-json : function(req, res, next) {
-    app.handle(req, res, next);
-  }
+----------
 finish http
+---------- 
+serve
+WebSocketServer {
+  _events: [Object: null prototype] {},
+  _eventsCount: 0,
+  _maxListeners: undefined,
+  _server: <ref *1> Server {
+    maxHeaderSize: undefined,
+    insecureHTTPParser: undefined,
+    requestTimeout: 300000,
+    headersTimeout: 60000,
+    keepAliveTimeout: 5000,
+    connectionsCheckingInterval: 30000,
+    requireHostHeader: true,
+    joinDuplicateHeaders: undefined,
+    rejectNonStandardBodyWrites: false,
+    _events: [Object: null prototype] {
+      request: [Function (anonymous)],
+      connection: [Function: connectionListener],
+      listening: [Array],
+      error: [Function],
+      upgrade: [Function]
+    },
+    _eventsCount: 5,
+    _maxListeners: undefined,
+    _connections: 0,
+    _handle: TCP {
+      reading: false,
+      onconnection: [Function: onconnection],
+      [Symbol(owner_symbol)]: [Circular *1]
+    },
+    _usingWorkers: false,
+    _workers: [],
+    _unref: false,
+    allowHalfOpen: true,
+    pauseOnConnect: false,
+    noDelay: true,
+    keepAlive: false,
+    keepAliveInitialDelay: 0,
+    highWaterMark: 16384,
+    httpAllowHalfOpen: false,
+    timeout: 0,
+    maxHeadersCount: null,
+    maxRequestsPerSocket: 0,
+    _connectionKey: '6::::6001',
+    [Symbol(IncomingMessage)]: [Function: IncomingMessage],
+    [Symbol(ServerResponse)]: [Function: ServerResponse],
+    [Symbol(kCapture)]: false,
+    [Symbol(async_id_symbol)]: 13,
+    [Symbol(kUniqueHeaders)]: null
+  },
+  _ultron: Ultron {
+    id: 0,
+    ee: <ref *1> Server {
+      maxHeaderSize: undefined,
+      insecureHTTPParser: undefined,
+      requestTimeout: 300000,
+      headersTimeout: 60000,
+      keepAliveTimeout: 5000,
+      connectionsCheckingInterval: 30000,
+      requireHostHeader: true,
+      joinDuplicateHeaders: undefined,
+      rejectNonStandardBodyWrites: false,
+      _events: [Object: null prototype],
+      _eventsCount: 5,
+      _maxListeners: undefined,
+      _connections: 0,
+      _handle: [TCP],
+      _usingWorkers: false,
+      _workers: [],
+      _unref: false,
+      allowHalfOpen: true,
+      pauseOnConnect: false,
+      noDelay: true,
+      keepAlive: false,
+      keepAliveInitialDelay: 0,
+      highWaterMark: 16384,
+      httpAllowHalfOpen: false,
+      timeout: 0,
+      maxHeadersCount: null,
+      maxRequestsPerSocket: 0,
+      _connectionKey: '6::::6001',
+      [Symbol(IncomingMessage)]: [Function: IncomingMessage],
+      [Symbol(ServerResponse)]: [Function: ServerResponse],
+      [Symbol(kCapture)]: false,
+      [Symbol(async_id_symbol)]: 13,
+      [Symbol(kUniqueHeaders)]: null
+    }
+  },
+  clients: Set(0) {},
+  options: {
+    maxPayload: 104857600,
+    perMessageDeflate: false,
+    handleProtocols: null,
+    clientTracking: true,
+    verifyClient: null,
+    noServer: false,
+    backlog: null,
+    server: null,
+    host: null,
+    path: null,
+    port: 6001
+  },
+  [Symbol(kCapture)]: false
+}
 Listening websocket p2p port on: 6001
 finish p2p
+----------
 exis : true
 Load wallet with private key from: wallet/6001/private_key
 finish wallet
-Listening http port on: 3001
-encodede block : {"_blocks":[{"header":{"version":"1.0.0","index":0,"_previousHash":"0000000000000000000000000000000000000000000000000000000000000000","timestamp":1231006505,"merkleRoot":"A6D72BAA3DB900B03E70DF880E503E9164013B4D9A470853EDC115776323A098","difficulty":0,"nonce":0},"data":["The Times 03/Jan/2009 Chancellor on brink of second bailout for banks"]}],"_length":1}
-load fun : [object Promise]
-load blockchain : [object Object]
-finish blockchain :[object Object]
+----------

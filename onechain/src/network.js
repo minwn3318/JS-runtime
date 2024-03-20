@@ -13,6 +13,10 @@ const MessageType = {
 };
 
 function queryAllMsg() {
+    console.dir({
+        "type": MessageType.QUERY_ALL,
+        "data": null
+    });
     return ({
         "type": MessageType.QUERY_ALL,
         "data": null
@@ -20,6 +24,10 @@ function queryAllMsg() {
 }
 
 function queryChainLengthMsg() {
+    console.dir({
+        "type": MessageType.QUERY_LATEST,
+        "data": null
+    });
     return ({
         "type": MessageType.QUERY_LATEST,
         "data": null
@@ -27,6 +35,11 @@ function queryChainLengthMsg() {
 }
 
 function responseChainMsg() {
+    console.dir({
+        "type": MessageType.RESPONSE_BLOCKCHAIN,
+        "data": getBlockchain().encode()
+    });
+
     return ({
         "type": MessageType.RESPONSE_BLOCKCHAIN,
         "data": getBlockchain().encode()
@@ -34,6 +47,11 @@ function responseChainMsg() {
 }
 
 function responseLatestMsg() {
+    console.dir({
+        "type": MessageType.RESPONSE_BLOCKCHAIN,
+        "data": new Blockchain([getLatestBlock()]).encode()
+    });
+
     return ({
         "type": MessageType.RESPONSE_BLOCKCHAIN,
         "data": new Blockchain([getLatestBlock()]).encode()
@@ -42,13 +60,23 @@ function responseLatestMsg() {
 
 var sockets = [];
 
-function write(ws, message) { 
+function write(ws, message) {
+    console.log("ws");
+    console.dir(ws); 
+
     ws.send(JSON.stringify(message));
-    console.log(ws.send(JSON.stringify(message))); 
+    console.log("wssend");
+    console.dir(ws.send(JSON.stringify(message)));  
 }
 
 function broadcast(message) {
+    console.log("bro");
+
     sockets.forEach(function (socket) {
+        console.log("for");
+        console.dir(socket);
+        console.dir(message);
+
         write(socket, message);
     });
 }
@@ -57,72 +85,60 @@ function getSockets() { return sockets; }
 
 function initP2PServer() {
     const server = new Server({ port: p2p_port });
-    console.dir("server : "+server);
+    console.log("serve");
+    console.dir(server);
     server.on("connection", function (ws) { initConnection(ws); });
     console.log("Listening websocket p2p port on: " + p2p_port);
 }
 
 function initConnection(ws) {
+
+    console.log("initws");
+    console.dir(ws);
+
     sockets.push(ws);
     console.log(sockets.push(ws));
 
     initMessageHandler(ws);
-    console.log("messagehandler : "+initMessageHandler(ws));
+    console.log("initMessageHandler");
 
     initErrorHandler(ws);
-    console.log("errorhandelr : "+initErrorHandler(ws));
+    console.log("errorhandelr : ");
 
     write(ws, queryChainLengthMsg());
-    console.log("write : " +write(ws, queryChainLengthMsg()));
+    console.log("write : ");
 }
 
 function initMessageHandler(ws) {
     ws.on("message", function (data) {
         const message = JSON.parse(data);
-        console.log("message :" + message);
+        console.log("message");
+        console.dir(message);
 
         // console.log("Received message" + JSON.stringify(message));
 
         switch (message.type) {
             case MessageType.QUERY_LATEST:
                 write(ws, responseLatestMsg());
-                console.log("write : " + write(ws, responseLatestMsg()));
                 break;
             case MessageType.QUERY_ALL:
                 write(ws, responseChainMsg());
-                console.log("write : " + write(ws, responseChainMsg()));
                 break;
             case MessageType.RESPONSE_BLOCKCHAIN:
                 handleBlockchainResponse(message);
-                console.log("respront : " + handleBlockchainResponse(message));
                 break;
         }
     });
-
-    // console.log(ws.on("message", function (data) {
-    //     const message = JSON.parse(data);
-    //     // console.log("Received message" + JSON.stringify(message));
-
-    //     switch (message.type) {
-    //         case MessageType.QUERY_LATEST:
-    //             write(ws, responseLatestMsg());
-    //             break;
-    //         case MessageType.QUERY_ALL:
-    //             write(ws, responseChainMsg());
-    //             break;
-    //         case MessageType.RESPONSE_BLOCKCHAIN:
-    //             handleBlockchainResponse(message);
-    //             break;
-    //     }
-    // }));
 }
 
 function initErrorHandler(ws) {
-    ws.on("close", function () { closeConnection(ws); });
-    console.log(ws.on("close", function () { closeConnection(ws); }));
+    ws.on("close", function () { 
+        console.log("close");
+        closeConnection(ws); });
 
-    ws.on("error", function () { closeConnection(ws); });
-    console.log(ws.on("error", function () { closeConnection(ws); }));
+    ws.on("error", function () { 
+        console.log("close");
+        closeConnection(ws); });
 
 }
 
@@ -139,10 +155,10 @@ function connectToPeers(newPeers) {
             console.log(ws);
 
             ws.on("open", function () { initConnection(ws); });
-            console.log(ws.on("open", function() {initConnection(ws);}));
+            console.log("open");
 
             ws.on("error", function () { console.log("Connection failed"); });
-            console.log(ws.on("error", function () { console.log("Connection failed"); }));
+            console.log("error");
         }
     );
     console.log("finsih connect");
@@ -150,8 +166,16 @@ function connectToPeers(newPeers) {
 
 function handleBlockchainResponse(message) {
     const receivedBlockchain = new Blockchain().decode(message.data);
+    console.log("receiveBlockchin");
+    console.dir(receivedBlockchain);
+
     const latestBlockReceived = receivedBlockchain.latestBlock();
+    console.log("latestBlockReceived");
+    console.dir(latestBlockReceived);
+
     const latestBlockHeld = getLatestBlock();
+    console.log("latestBlockHeld");
+    console.dir(latestBlockHeld);
 
     if (latestBlockReceived.header.index > latestBlockHeld.header.index) {
         console.log(

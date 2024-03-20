@@ -54,8 +54,17 @@ class Block {
 
     decode(encodedBlock) {
         var decodedBlock = JSON.parse(encodedBlock);
+        console.log("decodedBlcok");
+        console.dir(decodedBlock);
+
         var objectifiedBlock = Object.assign(new Block(), decodedBlock);
+        console.log("objectifiedBlock");
+        console.dir(objectifiedBlock);
+
         objectifiedBlock.header = Object.assign(new BlockHeader(), objectifiedBlock.header);
+        console.log("objectifiedBlockHeader");
+        console.dir(objectifiedBlock.header);
+
         return objectifiedBlock;
     }
 }
@@ -63,7 +72,7 @@ class Block {
 class Blockchain {
     constructor(blocks) {
         this._blocks = deepCopy(blocks);
-        try { this._length = this.blocks.length; } catch (err) { /* console.log(err); */ } // for decode()
+        try { this._length = this.blocks.length; } catch (err) {  console.log(err);  } // for decode()
     }
 
     get blocks() {
@@ -76,10 +85,16 @@ class Blockchain {
 
     push(newBlock) {
         this.blocks.push(newBlock);
+        console.log("this block");
+        console.dir(this.blocks);
+
         this._length = this.blocks.length;
+        console.log("lenthg");
+        console.dir(this._length);
     }
 
     indexWith(index) {
+        console.log("index");
         if (index >= this.length || index < (-1) * this.length) { throw RangeError(); }
 
         if (index < 0) { return this.blocks[this.length + index]; }
@@ -87,10 +102,12 @@ class Blockchain {
     }
 
     latestBlock() {
+        console.log("latest");
         return this.indexWith(-1);
     }
 
     latestBlockHash() {
+        console.log("latestblock");
         return this.latestBlock().hash();
     }
 
@@ -101,10 +118,12 @@ class Blockchain {
 
     decode(encodedBlockchain) {
         var decodedBlockchain = JSON.parse(encodedBlockchain);
-        console.dir("decodeBlockchain : "+decodedBlockchain);
+        console.log("decodedBlcokchain");
+        console.dir(decodedBlockchain);
 
         var objectifiedBlockchain = Object.assign(new Blockchain(), decodedBlockchain);
-        console.dir("objectifiedBlockchain : "+objectifiedBlockchain);
+        console.log("objectifiedBlockchain");
+        console.dir(objectifiedBlockchain);
 
         var decodedBlocks = objectifiedBlockchain.blocks.map(function (encodedBlock) {
             /**
@@ -119,13 +138,13 @@ class Blockchain {
 
     async save() {
         const encodedBlockchain = this.encode();
-        console.log("encodeedblock : "+ encodedBlockchain);
+        console.dir(encodedBlockchain);
 
         try { 
-            await db.put("Blockchain", encodedBlockchain);
+            const putdb = await db.put("Blockchain", encodedBlockchain);
 
             console.log("db : "+ db);
-            console.log("db fun :" + db.put("Blockchain", encodedBlockchain)); 
+            console.dir(putdb); 
             console.log("save");
         }
         catch (err) { throw err; }
@@ -137,7 +156,8 @@ class Blockchain {
         console.log("start load");
         try {
             const encodedBlockchain = await db.get("Blockchain");
-            console.log("encodede block : "+encodedBlockchain);
+            console.log("encodeBlcok");
+            console.dir(encodedBlockchain);
             
             return new Blockchain().decode(encodedBlockchain);
         }

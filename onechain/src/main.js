@@ -83,11 +83,11 @@ function initHttpServer() {
 // main
 (async function () {
     console.log("----------");
-    const initBl = await initBlockchain();
-    console.log("await : "+ initBl);
+    await initBlockchain();
     console.log("----------");
 
-    console.dir("peers : "+initialPeers);
+    console.log("peers");
+    console.dir(initialPeers);
     connectToPeers(initialPeers);
     console.log("finish peer");
     console.log("----------");
@@ -103,5 +103,4 @@ function initHttpServer() {
     initWallet();
     console.log("finish wallet");
     console.log("----------");
-
 })();

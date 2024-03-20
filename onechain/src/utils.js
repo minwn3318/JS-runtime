@@ -3,6 +3,7 @@ import { cloneDeep } from "lodash";
 import { existsSync, mkdirSync, readFileSync } from "fs";
 
 function deepCopy(src) {
+    console.log("deep");
     return cloneDeep(src);
 }
 
@@ -30,6 +31,7 @@ function recursiveMkdir(path) {
 }
 
 function hexToBinary(s) {
+    console.log("hex");
     const lookupTable = {
         '0': '0000', '1': '0001', '2': '0010', '3': '0011',
         '4': '0100', '5': '0101', '6': '0110', '7': '0111',
@@ -46,12 +48,19 @@ function hexToBinary(s) {
 }
 
 function getCurrentTimestamp() {
+    console.log("getcurrenttime");
     return Math.round(new Date().getTime() / 1000);
 }
 
 function getCurrentVersion() {
     const packageJson = readFileSync("./package.json");
+    console.log("packageJson");
+    console.dir(packageJson);
+
     const currentVersion = JSON.parse(packageJson).version;
+    console.log("currentVersion");
+    console.dir(currentVersion);
+
     return currentVersion;
 }
 
