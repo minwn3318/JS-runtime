@@ -1,0 +1,447 @@
+start----------
+[initConnection]
+<socketspush>
+<initMessageHandler>
+<errorhandelr>
+start----------
+[initErrorHandler]
+end----------
+start----------
+[queryChainLengthMsg]
+{ type: 0, data: null }
+end----------
+start---------
+[write]
+end--------
+write :
+end----------
+start----------
+[initmessagehandler]
+<message>
+{ type: 0, data: null }
+start----------
+[responseLatestMsg]
+start---------
+[getLatestBlock call]
+end----------
+start---------
+[latestBlcok]
+end----------
+start---------
+[indexWith]
+<index>
+Block {
+  header: BlockHeader {
+    version: '3.0.0',
+    index: 5,
+    _previousHash: '01920F9407E59C18FA4AD739D7372B07D371AD340E52F05F7AB96124703A87FE',
+    timestamp: 1711022395,
+    merkleRoot: '715DC8493C36579A5B116995100F635E3572FDF8703E708EF1A08D943B36774E',
+    difficulty: 0,
+    nonce: 0
+  },
+  data: [ 'private' ]
+}
+end----------
+start-----------
+[deepcopy]
+<copy>
+Block {
+  header: BlockHeader {
+    version: '3.0.0',
+    index: 5,
+    _previousHash: '01920F9407E59C18FA4AD739D7372B07D371AD340E52F05F7AB96124703A87FE',
+    timestamp: 1711022395,
+    merkleRoot: '715DC8493C36579A5B116995100F635E3572FDF8703E708EF1A08D943B36774E',
+    difficulty: 0,
+    nonce: 0
+  },
+  data: [ 'private' ]
+}
+end----------
+start---------
+[Blockchain]
+start-----------
+[deepcopy]
+<copy>
+[
+  Block {
+    header: BlockHeader {
+      version: '3.0.0',
+      index: 5,
+      _previousHash: '01920F9407E59C18FA4AD739D7372B07D371AD340E52F05F7AB96124703A87FE',       
+      timestamp: 1711022395,
+      merkleRoot: '715DC8493C36579A5B116995100F635E3572FDF8703E708EF1A08D943B36774E',
+      difficulty: 0,
+      nonce: 0
+    },
+    data: [ 'private' ]
+  }
+]
+end----------
+end---------
+start---------
+[blockchainencode]
+<encode>
+'{"_blocks":[{"header":{"version":"3.0.0","index":5,"_previousHash":"01920F9407E59C18FA4AD739D7372B07D371AD340E52F05F7AB96124703A87FE","timestamp":1711022395,"merkleRoot":"715DC8493C36579A5B116995100F635E3572FDF8703E708EF1A08D943B36774E","difficulty":0,"nonce":0},"data":["private"]}],"_length":1}'
+end----------
+{
+  type: 2,
+  data: '{"_blocks":[{"header":{"version":"3.0.0","index":5,"_previousHash":"01920F9407E59C18FA4AD739D7372B07D371AD340E52F05F7AB96124703A87FE","timestamp":1711022395,"merkleRoot":"715DC8493C36579A5B116995100F635E3572FDF8703E708EF1A08D943B36774E","difficulty":0,"nonce":0},"data":["private"]}],"_length":1}'
+}
+end----------
+start---------
+[getLatestBlock call]
+end----------
+start---------
+[latestBlcok]
+end----------
+start---------
+[indexWith]
+<index>
+Block {
+  header: BlockHeader {
+    version: '3.0.0',
+    index: 5,
+    _previousHash: '01920F9407E59C18FA4AD739D7372B07D371AD340E52F05F7AB96124703A87FE',
+    timestamp: 1711022395,
+    merkleRoot: '715DC8493C36579A5B116995100F635E3572FDF8703E708EF1A08D943B36774E',
+    difficulty: 0,
+    nonce: 0
+  },
+  data: [ 'private' ]
+}
+end----------
+start-----------
+[deepcopy]
+<copy>
+Block {
+  header: BlockHeader {
+    version: '3.0.0',
+    index: 5,
+    _previousHash: '01920F9407E59C18FA4AD739D7372B07D371AD340E52F05F7AB96124703A87FE',
+    timestamp: 1711022395,
+    merkleRoot: '715DC8493C36579A5B116995100F635E3572FDF8703E708EF1A08D943B36774E',
+    difficulty: 0,
+    nonce: 0
+  },
+  data: [ 'private' ]
+}
+end----------
+start---------
+[Blockchain]
+start-----------
+[deepcopy]
+<copy>
+[
+  Block {
+    header: BlockHeader {
+      version: '3.0.0',
+      index: 5,
+      _previousHash: '01920F9407E59C18FA4AD739D7372B07D371AD340E52F05F7AB96124703A87FE',       
+      timestamp: 1711022395,
+      merkleRoot: '715DC8493C36579A5B116995100F635E3572FDF8703E708EF1A08D943B36774E',
+      difficulty: 0,
+      nonce: 0
+    },
+    data: [ 'private' ]
+  }
+]
+end----------
+end---------
+start---------
+[blockchainencode]
+<encode>
+'{"_blocks":[{"header":{"version":"3.0.0","index":5,"_previousHash":"01920F9407E59C18FA4AD739D7372B07D371AD340E52F05F7AB96124703A87FE","timestamp":1711022395,"merkleRoot":"715DC8493C36579A5B116995100F635E3572FDF8703E708EF1A08D943B36774E","difficulty":0,"nonce":0},"data":["private"]}],"_length":1}'
+end----------
+start---------
+[write]
+end--------
+end----------
+start----------
+[initmessagehandler]
+<message>
+{
+  type: 2,
+  data: '{"_blocks":[{"header":{"version":"3.0.0","index":5,"_previousHash":"01920F9407E59C18FA4AD739D7372B07D371AD340E52F05F7AB96124703A87FE","timestamp":1711022395,"merkleRoot":"715DC8493C36579A5B116995100F635E3572FDF8703E708EF1A08D943B36774E","difficulty":0,"nonce":0},"data":["private"]}],"_length":1}'
+}
+start----------
+[handleBlockchainResponse]
+start---------
+[Blockchain]
+start-----------
+[deepcopy]
+<copy>
+undefined
+end----------
+TypeError: Cannot read properties of undefined (reading 'length')
+    at new Blockchain (C:\onechain-master3\src/types.js:108:42)
+    at handleBlockchainResponse (C:\onechain-master3\src/network.js:189:32)
+    at WebSocket.<anonymous> (C:\onechain-master3\src/network.js:142:17)
+    at WebSocket.emit (node:events:514:28)
+    at WebSocket.emit (node:domain:488:12)
+    at Receiver._receiver.onmessage (C:\onechain-master3\node_modules\ws\lib\WebSocket.js:141:47)
+    at Receiver.dataMessage (C:\onechain-master3\node_modules\ws\lib\Receiver.js:389:14)       
+    at Receiver.getData (C:\onechain-master3\node_modules\ws\lib\Receiver.js:330:12)
+    at Receiver.startLoop (C:\onechain-master3\node_modules\ws\lib\Receiver.js:165:16)
+    at Receiver.add (C:\onechain-master3\node_modules\ws\lib\Receiver.js:139:10)
+    at Socket.<anonymous> (C:\onechain-master3\node_modules\ws\lib\WebSocket.js:138:22)        
+    at Socket.emit (node:events:514:28)
+    at Socket.emit (node:domain:488:12)
+    at addChunk (node:internal/streams/readable:545:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:495:3)
+    at Socket.Readable.push (node:internal/streams/readable:375:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:190:23)
+end---------
+start---------
+[BlockChaindecode]
+<decodedBlcokchain>
+{ _blocks: [ { header: [Object], data: [Array] } ], _length: 1 }
+start---------
+[Blockchain]
+start-----------
+[deepcopy]
+<copy>
+undefined
+end----------
+TypeError: Cannot read properties of undefined (reading 'length')
+    at new Blockchain (C:\onechain-master3\src/types.js:108:42)
+    at Blockchain.decode (C:\onechain-master3\src/types.js:185:51)
+    at handleBlockchainResponse (C:\onechain-master3\src/network.js:189:49)
+    at WebSocket.<anonymous> (C:\onechain-master3\src/network.js:142:17)
+    at WebSocket.emit (node:events:514:28)
+    at WebSocket.emit (node:domain:488:12)
+    at Receiver._receiver.onmessage (C:\onechain-master3\node_modules\ws\lib\WebSocket.js:141:47)
+    at Receiver.dataMessage (C:\onechain-master3\node_modules\ws\lib\Receiver.js:389:14)       
+    at Receiver.getData (C:\onechain-master3\node_modules\ws\lib\Receiver.js:330:12)
+    at Receiver.startLoop (C:\onechain-master3\node_modules\ws\lib\Receiver.js:165:16)
+    at Receiver.add (C:\onechain-master3\node_modules\ws\lib\Receiver.js:139:10)
+    at Socket.<anonymous> (C:\onechain-master3\node_modules\ws\lib\WebSocket.js:138:22)        
+    at Socket.emit (node:events:514:28)
+    at Socket.emit (node:domain:488:12)
+    at addChunk (node:internal/streams/readable:545:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:495:3)
+    at Socket.Readable.push (node:internal/streams/readable:375:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:190:23)
+end---------
+<objectifiedBlockchain>
+Blockchain {
+  _blocks: [ { header: [Object], data: [Array] } ],
+  _length: 1
+}
+start----------
+[Block]
+start-----------
+[deepcopy]
+<copy>
+undefined
+end----------
+start-----------
+[deepcopy]
+<copy>
+undefined
+end----------
+end----------
+start----------
+[blockdecode]
+<decodedBlcok>
+{
+  header: {
+    version: '3.0.0',
+    index: 5,
+    _previousHash: '01920F9407E59C18FA4AD739D7372B07D371AD340E52F05F7AB96124703A87FE',
+    timestamp: 1711022395,
+    merkleRoot: '715DC8493C36579A5B116995100F635E3572FDF8703E708EF1A08D943B36774E',
+    difficulty: 0,
+    nonce: 0
+  },
+  data: [ 'private' ]
+}
+start----------
+[Block]
+start-----------
+[deepcopy]
+<copy>
+undefined
+end----------
+start-----------
+[deepcopy]
+<copy>
+undefined
+end----------
+end----------
+<objectifiedBlock>
+Block {
+  header: {
+    version: '3.0.0',
+    index: 5,
+    _previousHash: '01920F9407E59C18FA4AD739D7372B07D371AD340E52F05F7AB96124703A87FE',
+    timestamp: 1711022395,
+    merkleRoot: '715DC8493C36579A5B116995100F635E3572FDF8703E708EF1A08D943B36774E',
+    difficulty: 0,
+    nonce: 0
+  },
+  data: [ 'private' ]
+}
+start----------
+[blockHeader]
+start----------
+<objectifiedBlockHeader>
+BlockHeader {
+  version: '3.0.0',
+  index: 5,
+  _previousHash: '01920F9407E59C18FA4AD739D7372B07D371AD340E52F05F7AB96124703A87FE',
+  timestamp: 1711022395,
+  merkleRoot: '715DC8493C36579A5B116995100F635E3572FDF8703E708EF1A08D943B36774E',
+  difficulty: 0,
+  nonce: 0
+}
+<objectfiedblock>
+Block {
+  header: BlockHeader {
+    version: '3.0.0',
+    index: 5,
+    _previousHash: '01920F9407E59C18FA4AD739D7372B07D371AD340E52F05F7AB96124703A87FE',
+    timestamp: 1711022395,
+    merkleRoot: '715DC8493C36579A5B116995100F635E3572FDF8703E708EF1A08D943B36774E',
+    difficulty: 0,
+    nonce: 0
+  },
+  data: [ 'private' ]
+}
+end----------
+<decodeBlocks>
+[
+  Block {
+    header: BlockHeader {
+      version: '3.0.0',
+      index: 5,
+      _previousHash: '01920F9407E59C18FA4AD739D7372B07D371AD340E52F05F7AB96124703A87FE',       
+      timestamp: 1711022395,
+      merkleRoot: '715DC8493C36579A5B116995100F635E3572FDF8703E708EF1A08D943B36774E',
+      difficulty: 0,
+      nonce: 0
+    },
+    data: [ 'private' ]
+  }
+]
+end----------
+start---------
+[Blockchain]
+start-----------
+[deepcopy]
+<copy>
+[
+  Block {
+    header: BlockHeader {
+      version: '3.0.0',
+      index: 5,
+      _previousHash: '01920F9407E59C18FA4AD739D7372B07D371AD340E52F05F7AB96124703A87FE',       
+      timestamp: 1711022395,
+      merkleRoot: '715DC8493C36579A5B116995100F635E3572FDF8703E708EF1A08D943B36774E',
+      difficulty: 0,
+      nonce: 0
+    },
+    data: [ 'private' ]
+  }
+]
+end----------
+end---------
+<receiveBlockchin>
+Blockchain {
+  _blocks: [ Block { header: [BlockHeader], data: [Array] } ],
+  _length: 1
+}
+start---------
+[latestBlcok]
+end----------
+start---------
+[indexWith]
+<index>
+Block {
+  header: BlockHeader {
+    version: '3.0.0',
+    index: 5,
+    _previousHash: '01920F9407E59C18FA4AD739D7372B07D371AD340E52F05F7AB96124703A87FE',
+    timestamp: 1711022395,
+    merkleRoot: '715DC8493C36579A5B116995100F635E3572FDF8703E708EF1A08D943B36774E',
+    difficulty: 0,
+    nonce: 0
+  },
+  data: [ 'private' ]
+}
+end----------
+<latestBlockReceived>
+Block {
+  header: BlockHeader {
+    version: '3.0.0',
+    index: 5,
+    _previousHash: '01920F9407E59C18FA4AD739D7372B07D371AD340E52F05F7AB96124703A87FE',
+    timestamp: 1711022395,
+    merkleRoot: '715DC8493C36579A5B116995100F635E3572FDF8703E708EF1A08D943B36774E',
+    difficulty: 0,
+    nonce: 0
+  },
+  data: [ 'private' ]
+}
+start---------
+[getLatestBlock call]
+end----------
+start---------
+[latestBlcok]
+end----------
+start---------
+[indexWith]
+<index>
+Block {
+  header: BlockHeader {
+    version: '3.0.0',
+    index: 5,
+    _previousHash: '01920F9407E59C18FA4AD739D7372B07D371AD340E52F05F7AB96124703A87FE',
+    timestamp: 1711022395,
+    merkleRoot: '715DC8493C36579A5B116995100F635E3572FDF8703E708EF1A08D943B36774E',
+    difficulty: 0,
+    nonce: 0
+  },
+  data: [ 'private' ]
+}
+end----------
+start-----------
+[deepcopy]
+<copy>
+Block {
+  header: BlockHeader {
+    version: '3.0.0',
+    index: 5,
+    _previousHash: '01920F9407E59C18FA4AD739D7372B07D371AD340E52F05F7AB96124703A87FE',
+    timestamp: 1711022395,
+    merkleRoot: '715DC8493C36579A5B116995100F635E3572FDF8703E708EF1A08D943B36774E',
+    difficulty: 0,
+    nonce: 0
+  },
+  data: [ 'private' ]
+}
+end----------
+<latestBlockHeld>
+Block {
+  header: BlockHeader {
+    version: '3.0.0',
+    index: 5,
+    _previousHash: '01920F9407E59C18FA4AD739D7372B07D371AD340E52F05F7AB96124703A87FE',
+    timestamp: 1711022395,
+    merkleRoot: '715DC8493C36579A5B116995100F635E3572FDF8703E708EF1A08D943B36774E',
+    difficulty: 0,
+    nonce: 0
+  },
+  data: [ 'private' ]
+}
+Received blockchain is not longer than current blockchain. Do nothing
+End----------
+end----------
+
+
+//connect again from 6001
+C:\onechain-master3>
+                    curl http://127.0.0.1:3003/peers
+["::ffff:127.0.0.1:54861","::ffff:127.0.0.1:54863"]
+C:\onechain-master3>
