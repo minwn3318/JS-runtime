@@ -5,7 +5,7 @@ import level from "level";
 
 const dbLocation = "db/" + (process.env.DB || process.env.P2P_PORT || 6001);
 recursiveMkdir(dbLocation);
-console.log("make direct");
+console.log("<make direct-data>");
 
 const db = level(dbLocation);
 

@@ -8,18 +8,21 @@ import cors from "cors";
 import express from "express";
 import { json } from "body-parser";
 
-const http_port = process.env.HTTP_PORT || 3001;
+const http_port = process.env.HTTP_PORT || 3004;
 const initialPeers = process.env.PEERS ? process.env.PEERS.split(',') : [];
 
 function initHttpServer() {
     const app = express();
-    //console.log("exprtess : "+app);
+    console.log("exprtess : ");
+    //console.dir(app);
 
     app.use(cors());
-    //console.log("cors : "+ app.use(cors()));
+    console.log("cors : ");
+    //console.dir(app.use(cors()));
 
     app.use(json());
-    //console.log("json : "+ app.use(cors()));
+    console.log("json : ");
+    //console.dir(app.use(json()));
 
     app.get("/blocks", function (req, res) {
         res.send(getBlockchain());
@@ -82,25 +85,15 @@ function initHttpServer() {
 
 // main
 (async function () {
-    console.log("----------");
     await initBlockchain();
-    console.log("----------");
 
-    console.log("peers");
     console.dir(initialPeers);
     connectToPeers(initialPeers);
-    console.log("finish peer");
-    console.log("----------");
 
     initHttpServer();
-    console.log("finish http");
-    console.log("----------");
 
     initP2PServer();
-    console.log("finish p2p");
-    console.log("----------");
 
     initWallet();
-    console.log("finish wallet");
-    console.log("----------");
+
 })();

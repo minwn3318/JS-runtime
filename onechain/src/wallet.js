@@ -4,7 +4,7 @@ import { ec } from "./modules"; // crypto
 
 import { existsSync, writeFileSync, readFileSync } from "fs";
 
-const privateKeyLocation = "wallet/" + (process.env.PRIVATE_KEY || process.env.P2P_PORT || 6001);
+const privateKeyLocation = "wallet/" + (process.env.PRIVATE_KEY || process.env.P2P_PORT || 6004);
 const privateKeyFile = privateKeyLocation + "/private_key";
 
 function generatePrivateKey() {

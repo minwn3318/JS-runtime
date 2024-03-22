@@ -4,7 +4,7 @@ import { getLatestBlock, addBlock, replaceChain, getBlockchain } from "./modules
 
 import WebSocket, { Server } from "ws";
 
-const p2p_port = process.env.P2P_PORT || 6001;
+const p2p_port = process.env.P2P_PORT || 6004;
 
 const MessageType = {
     QUERY_LATEST: 0,
@@ -13,10 +13,13 @@ const MessageType = {
 };
 
 function queryAllMsg() {
+    console.log("start----------")
+    console.log("[queryAllMsg]");
     console.dir({
         "type": MessageType.QUERY_ALL,
         "data": null
     });
+    console.log("end----------");
     return ({
         "type": MessageType.QUERY_ALL,
         "data": null
@@ -24,10 +27,13 @@ function queryAllMsg() {
 }
 
 function queryChainLengthMsg() {
+    console.log("start----------")
+    console.log("[queryChainLengthMsg]");
     console.dir({
         "type": MessageType.QUERY_LATEST,
         "data": null
     });
+    console.log("end----------");
     return ({
         "type": MessageType.QUERY_LATEST,
         "data": null
@@ -35,11 +41,13 @@ function queryChainLengthMsg() {
 }
 
 function responseChainMsg() {
+    console.log("start----------")
+    console.log("[responseChainMsg]");
     console.dir({
         "type": MessageType.RESPONSE_BLOCKCHAIN,
         "data": getBlockchain().encode()
     });
-
+    console.log("end----------");
     return ({
         "type": MessageType.RESPONSE_BLOCKCHAIN,
         "data": getBlockchain().encode()
@@ -47,11 +55,13 @@ function responseChainMsg() {
 }
 
 function responseLatestMsg() {
+    console.log("start----------")
+    console.log("[responseLatestMsg]");
     console.dir({
         "type": MessageType.RESPONSE_BLOCKCHAIN,
         "data": new Blockchain([getLatestBlock()]).encode()
     });
-
+    console.log("end----------");
     return ({
         "type": MessageType.RESPONSE_BLOCKCHAIN,
         "data": new Blockchain([getLatestBlock()]).encode()
@@ -61,58 +71,62 @@ function responseLatestMsg() {
 var sockets = [];
 
 function write(ws, message) {
-    console.log("ws");
-    console.dir(ws); 
-
+    console.log("start---------");
+    //console.dir(ws); 
+    console.log("[write]");
     ws.send(JSON.stringify(message));
-    console.log("wssend");
-    console.dir(ws.send(JSON.stringify(message)));  
+    console.log("end--------");
+    //console.dir(ws.send(JSON.stringify(message)));  
 }
 
 function broadcast(message) {
-    console.log("bro");
+    console.log("start--------");
+    console.log("[brodcast]");
 
     sockets.forEach(function (socket) {
-        console.log("for");
-        console.dir(socket);
-        console.dir(message);
-
+        console.log("<for>");
         write(socket, message);
     });
+    console.log("end----------");
 }
 
 function getSockets() { return sockets; }
 
 function initP2PServer() {
     const server = new Server({ port: p2p_port });
-    console.log("serve");
-    console.dir(server);
+    console.log("start----------");
+    console.log("[p2pserver]");
+    //console.dir(server);
     server.on("connection", function (ws) { initConnection(ws); });
     console.log("Listening websocket p2p port on: " + p2p_port);
+    console.log("end----------");
 }
 
 function initConnection(ws) {
+    console.log("start----------");
+    console.log("[initConnection]");
+    //console.dir(ws);
 
-    console.log("initws");
-    console.dir(ws);
-
+    console.log("<socketspush>");
     sockets.push(ws);
-    console.log(sockets.push(ws));
 
+    console.log("<initMessageHandler>");
     initMessageHandler(ws);
-    console.log("initMessageHandler");
 
+    console.log("<errorhandelr>");
     initErrorHandler(ws);
-    console.log("errorhandelr : ");
 
     write(ws, queryChainLengthMsg());
     console.log("write : ");
+    console.log("end----------");
 }
 
 function initMessageHandler(ws) {
     ws.on("message", function (data) {
+        console.log("start----------")
+        console.log("[initmessagehandler]");
         const message = JSON.parse(data);
-        console.log("message");
+        console.log("<message>");
         console.dir(message);
 
         // console.log("Received message" + JSON.stringify(message));
@@ -128,10 +142,13 @@ function initMessageHandler(ws) {
                 handleBlockchainResponse(message);
                 break;
         }
+        console.log("end----------")
     });
 }
 
 function initErrorHandler(ws) {
+    console.log("start----------")
+    console.log("[initErrorHandler]");
     ws.on("close", function () { 
         console.log("close");
         closeConnection(ws); });
@@ -139,6 +156,7 @@ function initErrorHandler(ws) {
     ws.on("error", function () { 
         console.log("close");
         closeConnection(ws); });
+    console.log("end----------")
 
 }
 
@@ -148,33 +166,36 @@ function closeConnection(ws) {
 }
 
 function connectToPeers(newPeers) {
-    console.log("connect start");
     newPeers.forEach(
         function (peer) {
+            console.log("start----------");
+            console.log("[connecToPeers]");
             const ws = new WebSocket(peer);
-            console.log(ws);
+            console.log("<ws>");
 
             ws.on("open", function () { initConnection(ws); });
-            console.log("open");
+            console.log("<open>");
 
             ws.on("error", function () { console.log("Connection failed"); });
-            console.log("error");
+            console.log("<error>");
+            console.log("end-----------");
         }
     );
-    console.log("finsih connect");
 }
 
 function handleBlockchainResponse(message) {
+    console.log("start----------")
+    console.log("[handleBlockchainResponse]")
     const receivedBlockchain = new Blockchain().decode(message.data);
-    console.log("receiveBlockchin");
+    console.log("<receiveBlockchin>");
     console.dir(receivedBlockchain);
 
     const latestBlockReceived = receivedBlockchain.latestBlock();
-    console.log("latestBlockReceived");
+    console.log("<latestBlockReceived>");
     console.dir(latestBlockReceived);
 
     const latestBlockHeld = getLatestBlock();
-    console.log("latestBlockHeld");
+    console.log("<latestBlockHeld>");
     console.dir(latestBlockHeld);
 
     if (latestBlockReceived.header.index > latestBlockHeld.header.index) {
@@ -202,6 +223,7 @@ function handleBlockchainResponse(message) {
         }
     }
     else { console.log("Received blockchain is not longer than current blockchain. Do nothing"); }
+    console.log("End----------");
 }
 
 export default {
