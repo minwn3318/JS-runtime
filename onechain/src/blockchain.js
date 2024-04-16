@@ -1,4 +1,5 @@
 "use strict";
+import { logger } from "./logger";
 import { deepCopy, getCurrentVersion, getCurrentTimestamp, hexToBinary, deepEqual } from "./modules"; // utils
 import { SHA256, calculateMerkleRoot } from "./modules"; // crypto
 import { BlockHeader, Block, Blockchain } from "./modules"; // types
@@ -6,151 +7,146 @@ import { broadcast, responseLatestMsg } from "./modules"; // network
 
 import { boolean } from "random";
 
+const fileName = "blockchain.js";
+
 var blockchain;
 
 async function initBlockchain() {
-    console.log("start---------");
-    console.log("[initblockchain]");
+    const functionName = "initBlockchain";
+    logger.log({level: 'info', message : 'initalize load Blockchain', fileN : fileName, functionN:functionName});
+
     const loadedBlockchain = await new Blockchain().load();
-    console.log("<loadedBlock>");
-    console.dir(loadedBlockchain);
 
     if (loadedBlockchain !== undefined) {
+        logger.log({level: 'info', message : "loadblock defined", fileN : fileName, functionN:functionName});
         blockchain = loadedBlockchain;
     }
     else {
-        const newBlockchain = new Blockchain([getGenesisBlock()]);
-        console.log("<newblockchain>");
-        console.dir(newBlockchain);
+        logger.log({level: 'info', message : "loadblock undefined", fileN : fileName, functionN:functionName});
 
-        try { newBlockchain.save(); } catch (err) { throw err; }
+        const newBlockchain = new Blockchain([getGenesisBlock()]);
+
+        try { newBlockchain.save(); } 
+        catch (err) { 
+            logger.log({level: 'info', message : "init save err", fileN : fileName, functionN:functionName});
+            throw err; }
         blockchain = newBlockchain;
     }
     
-    console.log("<blockchain>");
-    console.dir(blockchain);
-    console.log("end----------");
+    logger.log({level: 'info', message : JSON.stringify(blockchain), fileN : fileName, functionN:functionName});
+
+   
 }
 
 function getBlockchain() { 
-    console.log("start---------");
-    console.log("[getBlockchain]");
-    console.log("end----------");
+    const functionName = "getBlockchain";
+    logger.log({level: 'info', message : 'get Blockchain', fileN : fileName, functionN:functionName});
+   
     return deepCopy(blockchain); 
 }
 
 function getLatestBlock() { 
-    console.log("start---------");
-    console.log("[getLatestBlock call]");
-    console.log("end----------");
+    const functionName = "getLatestBlock";
+    logger.log({level: 'info', message : 'get LatestBlock', fileN : fileName, functionN:functionName});
+   
     return deepCopy(blockchain.latestBlock()); 
 }
 
 function generateRawBlock(version, index, previousHash, timestamp, merkleRoot, difficulty, nonce, data) {
-    console.log("start---------");
-    console.log("[generateRawBlock]");
+    
+    const functionName = "generateRawBlock";
+    logger.log({level: 'info', message : 'generateRawBlock', fileN : fileName, functionN:functionName});
+
     const header = new BlockHeader(version, index, previousHash, timestamp, merkleRoot, difficulty, nonce);
-    console.log("<header>");
-    console.dir(header);
-    console.log("end----------");
+
     return new Block(header, data);
 }
 
 function generateBlock(version, index, previousHash, timestamp, difficulty, nonce, data) {
-    console.log("start---------");
-    console.log("[generateBlock]");
+    
+    const functionName = "generateBlock";
+    logger.log({level: 'info', message : 'generateBlock', fileN : fileName, functionN:functionName});
+
     const merkleRoot = calculateMerkleRoot(data);
-    console.log("<merkleRoot>");
-    console.dir(merkleRoot);
-    console.log("end----------");
+
     return generateRawBlock(version, index, previousHash, timestamp, merkleRoot, difficulty, nonce, data);
 }
 
 function getGenesisBlock() {
-    console.log("start---------");
-    console.log("[getGenesisBlock]");
+    
+    const functionName = "getGenesisBlock";
+    logger.log({level: 'info', message : 'get GenesisBlock', fileN : fileName, functionN:functionName});
+
     const version = "1.0.0";
     const index = 0;
     const previousHash = '0'.repeat(64);
     const timestamp = 1231006505; // 01/03/2009 @ 6:15pm (UTC)
-    const difficulty = 0;
+    const difficulty = 1;
     const nonce = 0;
     const data = ["The Times 03/Jan/2009 Chancellor on brink of second bailout for banks"];
-    console.log("end----------");
 
     return generateBlock(version, index, previousHash, timestamp, difficulty, nonce, data);
 }
 
 function generateNextBlock(blockData) {
-    console.log("start---------");
-    console.log("[generateNextBlock]");
-    
+
+    const functionName = "generateNextBlock";
+    logger.log({level: 'info', message : 'generate Nextblock', fileN : fileName, functionN:functionName});
+
     const previousBlock = getLatestBlock();
-    console.log("<previousBlock>");
-    console.dir(previousBlock);
 
     const currentVersion = getCurrentVersion();
-    console.log("<currentVersion>");
-    console.dir(currentVersion);
 
     const nextIndex = previousBlock.header.index + 1;
-    console.log("<nextIndex>");
-    console.dir(nextIndex);
 
     const previousHash = previousBlock.hash();
-    console.log("<previousHash>");
-    console.dir(previousHash);
 
     const nextTimestamp = getCurrentTimestamp();
-    console.log("<nextTimestamp>");
-    console.dir(nextTimestamp);
 
     const merkleRoot = calculateMerkleRoot(blockData);
-    console.log("<merkleRoot>");
-    console.dir(merkleRoot);
 
     const difficulty = getDifficulty(getBlockchain());
-    console.log("<difficulty>");
-    console.dir(difficulty);
 
     const validNonce = findNonce(currentVersion, nextIndex, previousHash, nextTimestamp, merkleRoot, difficulty);
-    console.log("<validNonce>");
-    console.dir(validNonce);
-
-    console.log("end---------");
 
     return generateRawBlock(currentVersion, nextIndex, previousHash, nextTimestamp, merkleRoot, difficulty, validNonce, blockData);
 }
 
 function addBlock(newBlock) {
-    console.log("start---------");
-    if (isValidNewBlock(newBlock, getLatestBlock())) {
-        blockchain.push(newBlock);
-        console.log("[newblockchain]");
-        console.dir(blockchain);
+    
+    const functionName = "addBlock";
+    logger.log({level: 'info', message : "addBlock function", fileN : fileName, functionN:functionName}); 
 
-        try { blockchain.save(); } catch (err) { throw err; }
+    if (isValidNewBlock(newBlock, getLatestBlock())) {
+        logger.log({level: 'info', message : "is valid block", fileN : fileName, functionN:functionName}); 
+
+        blockchain.push(newBlock);
+        logger.log({level: 'info', message : JSON.stringify(blockchain), fileN : fileName, functionN:functionName}); 
+
+        try { 
+            logger.log({level: 'info', message : 'add save', fileN : fileName, functionN:functionName}); 
+            blockchain.save(); } 
+        catch (err) {
+            logger.log({level: 'info', message : "add save err", fileN : fileName, functionN:functionName}); 
+            throw err; }
         return true;
     }
-    console.log("end---------");
     return false;
 }
 
 function mineBlock(blockData) {
-    console.log("start----------")
-    console.log("[mineblock]");
+    const functionName = "mineBlock";
+    logger.log({level: 'info', message : "mineBlock function", fileN : fileName, functionN:functionName}); 
     const newBlock = generateNextBlock(blockData);
-    console.log("<newBlock>");
-    console.dir(newBlock);
 
     if (addBlock(newBlock)) {
-        console.log("<addBlock>");
+        logger.log({level: 'info', message : "mineblock addblock true", fileN : fileName, functionN:functionName}); 
+
         broadcast(responseLatestMsg());
-        console.log("end----------")
         return newBlock;
     }
     else {
-        console.log("end----------")
+        logger.log({level: 'info', message : "mineblock err", fileN : fileName, functionN:functionName}); 
         return null;
     }
 }
@@ -162,103 +158,86 @@ function mineBlock(blockData) {
  * TODO: Multi-threading (clustering)
  */
 function findNonce(version, index, previoushash, timestamp, merkleRoot, difficulty) {
-    console.log("start----------")
-    console.log("[findNonce]");
+
+    const functionName = "findNonce";
 
     var nonce = 0;
     while (true) {
         var hash = SHA256([version, index, previoushash, timestamp, merkleRoot, difficulty, nonce]);
         if (hashMatchesDifficulty(hash, difficulty)) { 
-            console.log("end-----------");
+            logger.log({level: 'info', message : nonce, fileN : fileName, functionN:functionName});
             return nonce; }
         nonce++;
     }
 }
 
 function hashMatchesDifficulty(hash, difficulty) {
-    console.log("start----------")
-    console.log("[hashMatchesDifficulty]");
+    const functionName = "hashMatchesDifficulty";
+    logger.log({level: 'info', message : 'hashMatchesDifficulty', fileN : fileName, functionN:functionName});
 
     const hashBinary = hexToBinary(hash);
-    console.log("<hashbinary>");
-    console.dir(hashBinary);
 
     const requiredPrefix = '0'.repeat(difficulty);
-    console.log("<requiredPrefix>");
-    console.dir(requiredPrefix);
+    logger.log({level: 'info', message : requiredPrefix, fileN : fileName, functionN:functionName});
 
-    console.log(hashBinary.startsWith(requiredPrefix));
-    console.log("end-----------");
-    return hashBinary.startsWith(requiredPrefix);
+    const trufalse = hashBinary.startsWith(requiredPrefix)
+    logger.log({level: 'info', message : JSON.stringify(trufalse), fileN : fileName, functionN:functionName});
+
+    return trufalse;
 }
 
 const BLOCK_GENERATION_INTERVAL = 10; // in seconds
 const DIFFICULTY_ADJUSTMENT_INTERVAL = 10; // in blocks
 
 function getDifficulty(aBlockchain) {
-    console.log("start----------")
-    console.log("[getDifficulty]");
+    const functionName = "getDifficulty";
+    logger.log({level: 'info', message : 'getDifficulty', fileN : fileName, functionN:functionName});
 
     const latestBlock = aBlockchain.latestBlock();
-    console.log("<latestBlock>");
-    console.dir(latestBlock);
 
     if (latestBlock.header.index % DIFFICULTY_ADJUSTMENT_INTERVAL === 0 && latestBlock.header.index !== 0) {
-        console.log("<getAdjsut>");
-        console.log("end-----------");
+        logger.log({level: 'info', message : 'let adjusted difficulty', fileN : fileName, functionN:functionName});
         return getAdjustedDifficulty(aBlockchain);
     }
-    console.log(latestBlock.header.difficulty);
-    console.log("end-----------");
+    logger.log({level: 'info', message : JSON.stringify(latestBlock.header.difficulty), fileN : fileName, functionN:functionName});
     return latestBlock.header.difficulty;
 }
 
 function getAdjustedDifficulty(aBlockchain) {
-    console.log("start----------")
-    console.log("[getAdjusteddifficult]");
-    
+    const functionName = "getDifficulty";
+    logger.log({level: 'info', message : 'getDifficulty', fileN : fileName, functionN:functionName});
+
     const latestBlock = aBlockchain.latestBlock();
-    console.log("<latestBlock>");
-    console.dir(latestBlock);
 
     const prevAdjustmentBlock = aBlockchain.indexWith(aBlockchain.length - DIFFICULTY_ADJUSTMENT_INTERVAL);
-    console.log("<prevAdjust>");
-    console.dir(prevAdjustmentBlock);
 
     const timeTaken = latestBlock.header.timestamp - prevAdjustmentBlock.header.timestamp;
-    console.log("<timetaken>");
-    console.dir(timeTaken);
+    logger.log({level: 'info', message : timeTaken, fileN : fileName, functionN:functionName});
 
     const timeExpected = BLOCK_GENERATION_INTERVAL * DIFFICULTY_ADJUSTMENT_INTERVAL;
-    console.log("<timeExpected>");
-    console.dir(timeExpected);
+    logger.log({level: 'info', message : timeExpected, fileN : fileName, functionN:functionName});
+
 
     if (timeTaken < timeExpected / 2) {
-        console.log("<preadjust+1>");
-        console.log(prevAdjustmentBlock.header.difficulty + 1);
-        console.log("end-----------");
+        logger.log({level: 'info', message : 'difficulty+1', fileN : fileName, functionN:functionName});
         return prevAdjustmentBlock.header.difficulty + 1;
     }
     else if (timeTaken > timeExpected * 2) {
-        console.log("<preadjust-1>");
-        console.log(prevAdjustmentBlock.header.difficulty - 1);
-        console.log("end-----------");
+        logger.log({level: 'info', message : 'difficulty-1', fileN : fileName, functionN:functionName});
         return prevAdjustmentBlock.header.difficulty - 1;
     }
     else {
-        console.log("preadjust0");
-        console.log(prevAdjustmentBlock.header.difficulty);
-        console.log("end-----------");
+        logger.log({level: 'info', message : 'difficulty+0', fileN : fileName, functionN:functionName});
         return prevAdjustmentBlock.header.difficulty;
     }
 }
 
 function isValidBlockStructure(block) {
-    console.log("start----------")
-    console.log("[getAdjusteisValidBlockStructureddifficult]");
-    console.log("<isValid>");
+    const functionName = "isValidBlockStructure";
 
-    console.log(typeof (block.header.version) === 'string'
+    logger.log({level: 'info', message : 'isValidBlockStructure', fileN : fileName, functionN:functionName});
+
+    const trualse = (typeof (block.header.version) === 'string'
     && typeof (block.header.index) === 'number'
     && typeof (block.header.previousHash) === 'string'
     && typeof (block.header.timestamp) === 'number'
@@ -267,7 +246,7 @@ function isValidBlockStructure(block) {
     && typeof (block.header.nonce) === 'number'
     && typeof (block.data) === 'object');
 
-    console.log("end----------")
+    logger.log({level: 'info', message : trualse, fileN : fileName, functionN:functionName});
 
     return typeof (block.header.version) === 'string'
         && typeof (block.header.index) === 'number'
@@ -280,78 +259,77 @@ function isValidBlockStructure(block) {
 }
 
 function isValidTimestamp(newBlock, previousBlock) {
-    console.log("start----------")
-    console.log("[isValidTimestamp]");
-    console.log("<isValidTimestamp>");
+    const functionName = "isValidTimestamp";
+    logger.log({level: 'info', message :'isValidTimestamp', fileN : fileName, functionN:functionName});
 
-    console.dir((previousBlock.header.timestamp - 60 < newBlock.header.timestamp)
-    && newBlock.header.timestamp - 60 < getCurrentTimestamp());
+
+    const vl = (previousBlock.header.timestamp - 60 < newBlock.header.timestamp)
+    && newBlock.header.timestamp - 60 < getCurrentTimestamp()
+
+    logger.log({level: 'info', message : vl, fileN : fileName, functionN:functionName});
 
     return (previousBlock.header.timestamp - 60 < newBlock.header.timestamp)
         && newBlock.header.timestamp - 60 < getCurrentTimestamp();
 }
 
 function isValidNewBlock(newBlock, previousBlock) {
-    console.log("start------------");
-    console.log("[isValidblock]");
+    const functionName = "isValidNewBlock";
+    logger.log({level: 'info', message : 'check validNewblock', fileN : fileName, functionN:functionName});
 
     if (!isValidBlockStructure(newBlock)) {
-        console.log("Invalid block structure: " + JSON.stringify(newBlock));
-        console.log("end------------");
+        logger.log({level: 'info', message : 'Invalid block structure', fileN : fileName, functionN:functionName});
+
+        const ne = JSON.stringify(newBlock);
+        logger.log({level: 'info', message : ne, fileN : fileName, functionN:functionName});
+
         return false;
     }
     else if (previousBlock.header.index + 1 !== newBlock.header.index) {
-        console.log("Invalid index");
-        console.log("end------------");
+        logger.log({level: 'info', message : 'Invalid index', fileN : fileName, functionN:functionName});
         return false;
     }
     else if (previousBlock.hash() !== newBlock.header.previousHash) {
-        console.log("Invalid previousHash");
-        console.log("end------------");
+        logger.log({level: 'info', message : 'Invalid previousHash', fileN : fileName, functionN:functionName});
         return false;
     }
     else if (calculateMerkleRoot(newBlock.data) !== newBlock.header.merkleRoot) {
-        console.log("Invalid merkleRoot");
-        console.log("end------------");
+        logger.log({level: 'info', message : 'Invalid merkleRoot', fileN : fileName, functionN:functionName});
         return false;
     }
     else if (!isValidTimestamp(newBlock, previousBlock)) {
-        console.log('Invalid timestamp');
-        console.log("end------------");
+        logger.log({level: 'info', message : 'Invalid timestamp', fileN : fileName, functionN:functionName});
         return false;
     }
     else if (!hashMatchesDifficulty(newBlock.hash(), newBlock.header.difficulty)) {
-        console.log("Invalid hash: " + newBlock.hash());
-        console.log("end------------");
+        logger.log({level: 'info', message : 'Invalid hash', fileN : fileName, functionN:functionName});
         return false;
     }
     return true;
 }
 
 function isValidChain(blockchainToValidate) {
-    console.log("start------------");
-    console.log("[isValidChain]");
+    const functionName = "isValidChain";
+    logger.log({level: 'info', message : 'isValidChain', fileN : fileName, functionN:functionName});
+
+
     if (!deepEqual(blockchainToValidate.indexWith(0), getGenesisBlock())) {
-        console.log("<doesnt Validstamp>");
-        console.log("end------------");
+        logger.log({level: 'info', message : 'doesnt Validstamp', fileN : fileName, functionN:functionName});
         return false;
     }
     var tempBlockchain = new Blockchain([blockchainToValidate.indexWith(0)]);
-    console.log("<tempblock>");
-    console.dir(tempBlockchain);
+    logger.log({level: 'info', message : JSON.stringify(tempBlockchain), fileN : fileName, functionN:functionName});
+
 
     for (var i = 1; i < blockchainToValidate.length; i++) {
         if (isValidNewBlock(blockchainToValidate.indexWith(i), tempBlockchain.indexWith(i - 1))) {
             tempBlockchain.push(blockchainToValidate.indexWith(i));
-            console.log("<validnew>");
-            console.dir(tempBlockchain);
-
+            logger.log({level: 'info', message : 'valid block push', fileN : fileName, functionN:functionName});
         }
         else { 
-            console.log("end------------");
+            logger.log({level: 'info', message : 'invalid blockchain', fileN : fileName, functionN:functionName});
             return false; }
     }
-    console.log("end------------");
+    logger.log({level: 'info', message : 'valid blockchain', fileN : fileName, functionN:functionName});
     return true;
 }
 
@@ -360,41 +338,44 @@ function isReplaceNeeded(originalBlockchain, newBlockchain) {
      * TODO: the haviest chain rule.
      * The current implementation is the longest chain rule.
      */
-    console.log("start------------");
-    console.log("[isReplaceNeeded]");
+    const functionName = "isReplaceNeeded";
+    logger.log({level: 'info', message : 'isReplaceNeeded', fileN : fileName, functionN:functionName});
+
+
     if (originalBlockchain.length < newBlockchain.length) { 
-        console.log("<lentgh-1>");
-        console.dir(originalBlockchain.length < newBlockchain.length);
-        console.log("end------------");
+        logger.log({level: 'info', message : 'need replace', fileN : fileName, functionN:functionName});
         return true; 
     }
     else if (originalBlockchain.length > newBlockchain.length) { 
-        console.log("<lentgh+1>");
-        console.dir(originalBlockchain.length > newBlockchain.length);
-        console.log("end------------");
+        logger.log({level: 'info', message : 'not need replace', fileN : fileName, functionN:functionName});
         return false; 
     }
     else { 
-        console.log("<random>")
-        console.log("end------------");
+        logger.log({level: 'info', message : 'need random', fileN : fileName, functionN:functionName});
         return boolean(); 
     }
 }
 
 function replaceChain(newBlockchain) {
-    console.log("start------------");
-    console.log("[replaceChain]");
-    if (isReplaceNeeded(blockchain, newBlockchain) && isValidChain(newBlockchain)) {
-        console.log("Received blockchain is valid. Replacing current blockchain with received blockchain");
+    const functionName = "replaceChain";
+    logger.log({level: 'info', message : 'replaceChain', fileN : fileName, functionN:functionName});
 
+
+    if (isReplaceNeeded(blockchain, newBlockchain) && isValidChain(newBlockchain)) {
+        logger.log({level: 'info', message : 'Received blockchain is valid. Replacing current blockchain with received blockchain', fileN : fileName, functionN:functionName});
         blockchain = deepCopy(newBlockchain);
-        try { blockchain.save(); } catch (err) { throw err; }
+        try { 
+            logger.log({level: 'info', message : 'replaceChain save', fileN : fileName, functionN:functionName});
+            blockchain.save(); } 
+        catch (err) { 
+            logger.log({level: 'info', message : "replcae save err", fileN : fileName, functionN:functionName});
+            throw err; }
 
         broadcast(responseLatestMsg());
     }
-    else { console.log("Received blockchain invalid"); }
-    console.log("end------------");
-
+    else { 
+        logger.log({level: 'info', message : 'Received blockchain invalid', fileN : fileName, functionN:functionName});
+    }
 }
 
 export default {

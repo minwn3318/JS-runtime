@@ -8,7 +8,7 @@ import cors from "cors";
 import express from "express";
 import { json } from "body-parser";
 
-const http_port = process.env.HTTP_PORT || 3004;
+const http_port = process.env.HTTP_PORT || 3001;
 const initialPeers = process.env.PEERS ? process.env.PEERS.split(',') : [];
 
 function initHttpServer() {
@@ -87,7 +87,6 @@ function initHttpServer() {
 (async function () {
     await initBlockchain();
 
-    console.dir(initialPeers);
     connectToPeers(initialPeers);
 
     initHttpServer();

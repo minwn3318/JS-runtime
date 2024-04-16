@@ -1,12 +1,14 @@
 "use strict";
+import { logger } from "./logger";
 import { deepCopy } from "./modules"; // utils
 import { SHA256 } from "./modules"; // crypto
 import { db } from "./modules"; // database
 
+const fileName = "types.js";
+
 class BlockHeader {
     constructor(version, index, previousHash, timestamp, merkleRoot, difficulty, nonce) {
-        console.log("start----------")
-        console.log("[blockHeader]");
+
         this.version = version;
         this.index = index;
         this._previousHash = previousHash;
@@ -14,7 +16,9 @@ class BlockHeader {
         this.merkleRoot = merkleRoot;
         this.difficulty = difficulty;
         this.nonce = nonce;
-        console.log("start----------")
+
+        const functionName = "blockHeader";
+        logger.log({level: 'info', message : 'new BlockHeader', fileN : fileName, functionN:functionName});
     }
 
     get previousHash() {
@@ -29,10 +33,10 @@ class BlockHeader {
     }
 
     hash() {
-        console.log("start----------");
-        console.log("[hash]");
-        console.log("<hash>");
-        console.dir(SHA256([
+        const functionName = "blockHeader/hash";
+        logger.log({level: 'info', message : 'hash', fileN : fileName, functionN:functionName});
+
+        const hashValue = (SHA256([
             this.version,
             this.index,
             this.previousHash,
@@ -41,7 +45,9 @@ class BlockHeader {
             this.difficulty,
             this.nonce
         ]));
-        console.log("end--------");
+
+        logger.log({level: 'info', message : hashValue, fileN : fileName, functionN:functionName});
+
         return SHA256([
             this.version,
             this.index,
@@ -56,45 +62,44 @@ class BlockHeader {
 
 class Block {
     constructor(header, data) {
-        console.log("start----------")
-        console.log("[Block]");
+        const functionName = "block/new";
+        logger.log({level: 'info', message : 'new block', fileN : fileName, functionN:functionName});
+
         this.header = deepCopy(header);
         this.data = deepCopy(data);
-        console.log("end----------")
+
     }
 
     hash() {
-        console.log("start----------");
-        console.log("[Header hash]");
+
+        const functionName = "block/hash";
+        logger.log({level: 'info', message : 'get blockHeader hash', fileN : fileName, functionN:functionName});
+        
         return this.header.hash();
     }
 
     encode() {
-        console.log("start----------");
-        console.log("[blockencode]");
-        console.log("<encode>");
-        console.dir(JSON.stringify(this));
-        console.log("end--------");
+        const functionName = "block/encode";
+        logger.log({level: 'info', message : 'encode', fileN : fileName, functionN:functionName});
+
+        const endoevli = JSON.stringify(this);
+        logger.log({level: 'info', message : endoevli, fileN : fileName, functionN:functionName});
+        
         return JSON.stringify(this);
     }
 
     decode(encodedBlock) {
-        console.log("start----------")
-        console.log("[blockdecode]");
-        var decodedBlock = JSON.parse(encodedBlock);
-        console.log("<decodedBlcok>");
-        console.dir(decodedBlock);
+        const functionName = "block/decode";
+        logger.log({level: 'info', message : 'decode', fileN : fileName, functionN:functionName});
 
-        var objectifiedBlock = Object.assign(new Block(), decodedBlock);
-        console.log("<objectifiedBlock>");
-        console.dir(objectifiedBlock);
+        const decodedBlock = JSON.parse(encodedBlock);
+        logger.log({level: 'info', message : JSON.stringify(decodedBlock), fileN : fileName, functionN:functionName});
+
+        const objectifiedBlock = Object.assign(new Block(), decodedBlock);
+        logger.log({level: 'info', message : JSON.stringify(objectifiedBlock), fileN : fileName, functionN:functionName});
 
         objectifiedBlock.header = Object.assign(new BlockHeader(), objectifiedBlock.header);
-        console.log("<objectifiedBlockHeader>");
-        console.dir(objectifiedBlock.header);
-        console.log("<objectfiedblock>");
-        console.dir(objectifiedBlock);
-        console.log("end----------");
+        logger.log({level: 'info', message : JSON.stringify(decodedBlock.header), fileN : fileName, functionN:functionName});
 
         return objectifiedBlock;
     }
@@ -102,11 +107,14 @@ class Block {
 
 class Blockchain {
     constructor(blocks) {
-        console.log("start---------")
-        console.log("[Blockchain]");
+        const functionName = "Blockchain";
+        logger.log({level: 'info', message : "new Blockchain", fileN : fileName, functionN:functionName});
+
         this._blocks = deepCopy(blocks);
-        try { this._length = this.blocks.length; } catch (err) {  console.log(err);  } // for decode()
-        console.log("end---------")
+        try { this._length = this.blocks.length; } 
+        catch (err) {  
+            logger.log({level: 'info', message : "blockchin length err", fileN : fileName, functionN:functionName});
+            console.log(err);  } // for decode()
     }
 
     get blocks() {
@@ -118,75 +126,64 @@ class Blockchain {
     }
 
     push(newBlock) {
-        console.log("start---------");
-        console.log("[push]");
-        console.log("<this blocks>");
-        console.dir(this.blocks);
-        console.log("<newBlock>");
-        console.dir(newBlock);
-        
-        console.log("<pushNewBlcok -> this blocks>");
-        console.dir(this.blocks.push(newBlock));
+        const functionName = "Blockchain/push";
+        logger.log({level: 'info', message : 'push new block', fileN : fileName, functionN:functionName});
 
+        this.blocks.push(newBlock);
         this._length = this.blocks.length;
-        console.log("<lenthg>");
-        console.dir(this._length);
-        console.log("end----------");
+
     }
 
     indexWith(index) {
-        console.log("start---------");
-        console.log("[indexWith]");
-        console.log("<index>");
+
+        const functionName = "Blockchain/indexWith";
+        logger.log({level: 'info', message : "indexWith", fileN : fileName, functionN:functionName});
+
         if (index >= this.length || index < (-1) * this.length) { throw RangeError(); }
 
         if (index < 0) { 
-            console.dir(this.blocks[this.length + index]);
-            console.log("end----------");
+            logger.log({level: 'info', message : JSON.stringify(this.blocks[this.length + index]), fileN : fileName, functionN:functionName});
+
             return this.blocks[this.length + index]; }
 
         else { 
-            console.dir(this.blocks[index])
-            console.log("end----------");
+            logger.log({level: 'info', message : JSON.stringify(this.blocks[index]), fileN : fileName, functionN:functionName});
+
             return this.blocks[index]; }
     }
 
     latestBlock() {
-        console.log("start---------");
-        console.log("[latestBlcok]");
-        console.log("end----------");
+        const functionName = "Blockchain/latestBlock";
+        logger.log({level: 'info', message : 'get latestBlock', fileN : fileName, functionN:functionName});
+
         return this.indexWith(-1);
     }
 
     latestBlockHash() {
-        console.log("start---------");
-        console.log("[latestBlockHash]");
-        console.log("end----------");
+        const functionName = "Blockchain/latestBlockHash";
+        logger.log({level: 'info', message : 'get latestBlockHash', fileN : fileName, functionN:functionName});
+
         return this.latestBlock().hash();
     }
 
     encode() {
-        console.log("start---------");
-        console.log("[blockchainencode]");
-        console.log("<encode>");
         const encoedblock = JSON.stringify(this)
-        console.dir(encoedblock);
-        console.log("end----------");
+        const functionName = "Blockchain/encode";
+        logger.log({level: 'info', message : encoedblock, fileN : fileName, functionN:functionName});
         return encoedblock;
     }
 
     decode(encodedBlockchain) {
-        console.log("start---------");
-        console.log("[BlockChaindecode]");
-        var decodedBlockchain = JSON.parse(encodedBlockchain);
-        console.log("<decodedBlcokchain>");
-        console.dir(decodedBlockchain);
+        const functionName = "Blockchain/decode";
+        logger.log({level: 'info', message : "decode", fileN : fileName, functionN:functionName});
 
-        var objectifiedBlockchain = Object.assign(new Blockchain(), decodedBlockchain);
-        console.log("<objectifiedBlockchain>");
-        console.dir(objectifiedBlockchain);
+        const decodedBlockchain = JSON.parse(encodedBlockchain);
+        logger.log({level: 'info', message : JSON.stringify(decodedBlockchain), fileN : fileName, functionN:functionName});
 
-        var decodedBlocks = objectifiedBlockchain.blocks.map(function (encodedBlock) {
+        const objectifiedBlockchain = Object.assign(new Blockchain(), decodedBlockchain);
+        logger.log({level: 'info', message : JSON.stringify(objectifiedBlockchain), fileN : fileName, functionN:functionName});
+
+        const decodedBlocks = objectifiedBlockchain.blocks.map(function (encodedBlock) {
             /**
              * TODO: optimization.
              * Meaningless repetition of JSON.stringify and JSON.parse in Block().decode()
@@ -194,43 +191,41 @@ class Blockchain {
             return new Block().decode(JSON.stringify(encodedBlock));
         });
 
-        console.log("<decodeBlocks>");
-        console.dir(decodedBlocks);
-        console.log("end----------");
+        logger.log({level: 'info', message : JSON.stringify(decodedBlocks), fileN : fileName, functionN:functionName});
 
         return new Blockchain(decodedBlocks);
     }
 
     async save() {
-        console.log("start----------");
-        console.log("[save]")
+        const functionName = "Blockchain/save";
+        logger.log({level: 'info', message : "save", fileN : fileName, functionN:functionName});
+
         const encodedBlockchain = this.encode();
-        console.log("<endcodeBlockchain>");
-        console.dir(encodedBlockchain);
+        logger.log({level: 'info', message : encodedBlockchain, fileN : fileName, functionN:functionName});
 
         try { 
-            const putdb = await db.put("Blockchain", encodedBlockchain);
+            await db.put("Blockchain", encodedBlockchain);
+            logger.log({level: 'info', message : "BlockChain-save", fileN : fileName, functionN:functionName});
 
-            console.log("<db> : "+ db);
-            console.dir(putdb); 
-            console.log("<save>");
         }
-        catch (err) { throw err; }
+        catch (err) { 
+            logger.log({level: 'info', message : "save err", fileN : fileName, functionN:functionName});
+            throw err; }
 
-        console.log("end----------");
     }
 
     async load() {
-        console.log("start----------");
-        console.log("[load]");
+        const functionName = "Blockchain/load";
+        logger.log({level: 'info', message : "load", fileN : fileName, functionN:functionName});
+
         try {
             const encodedBlockchain = await db.get("Blockchain");
-            console.log("<encodeBlcok>");
-            console.dir(encodedBlockchain);
-            console.log("end----------");
+            logger.log({level: 'info', message : JSON.stringify(encodedBlockchain), fileN : fileName, functionN:functionName});
+
             return new Blockchain().decode(encodedBlockchain);
         }
         catch (err) {
+            logger.log({level: 'info', message : "load err", fileN : fileName, functionN:functionName});
             return undefined;
         }
     }
